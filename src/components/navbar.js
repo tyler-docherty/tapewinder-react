@@ -40,12 +40,24 @@ export default function Navbar({ loggedin }) {
         setAnchorElUser(null);
     };
 
+    useEffect(() => {
+        const onPageStartLoad = () => {
+            document.getElementById("progress-bar").style.display = "block";
+        };
+        const onPageEndLoad = () => {
+            setTimeout(() => {
+                document.getElementById("progress-bar").style.display = "none";
+            }, Math.floor(Math.random()*1000)+500);
+        };
+        router.events.on("routeChangeStart", onPageStartLoad);
+        router.events.on("routeChangeComplete", onPageEndLoad);
+    });
+
     return (
         <AppBar position="static" className="black">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Logo width="182" height="46" margintop="5px" marginright="10px" />
-
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
                         <IconButton
                             size="large"
@@ -82,7 +94,7 @@ export default function Navbar({ loggedin }) {
                         </Menu>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }} id="navbar">
-                        <div style={{"margin-top":"2px","margin-bottom":"2px","color":"white","display":"block"}}>
+                        <div style={{ marginTop: "2px", marginBottom: "2px", color: "white", display: "block" }}>
                             <Button
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: "white", display: "block" }}>
@@ -101,10 +113,14 @@ export default function Navbar({ loggedin }) {
                             :
                             <div>
                                 <Tooltip title="Sign up">
-                                    <Button className="mr-5" href="/signup"><Link href="/signup" className="no-text-decoration">Sign up</Link></Button>
+                                    <Button className="mr-5" href="/signup" component="div">
+                                        <Link href="/signup" className="no-text-decoration">Sign up</Link>
+                                    </Button>
                                 </Tooltip>
                                 <Tooltip title="Log in">
-                                    <Button variant="contained" size="medium"><Link href="/login" className="no-text-decoration">Log in</Link></Button>
+                                    <Button variant="contained" size="medium" component="div">
+                                        <Link href="/login" className="no-text-decoration">Log in</Link>
+                                    </Button>
                                 </Tooltip>
                             </div>
                         }
@@ -133,18 +149,6 @@ export default function Navbar({ loggedin }) {
                     </Box>
                 </Toolbar>
             </Container>
-            {useEffect(() => {
-                const onPageStartLoad = () => {
-                    document.getElementById("progress-bar").style.display = "block";
-                };
-                const onPageEndLoad = () => {
-                    setTimeout(() => {
-                        document.getElementById("progress-bar").style.display = "none";
-                    }, Math.floor(Math.random()*1000)+750);
-                };
-                router.events.on("routeChangeStart", onPageStartLoad);
-                router.events.on("routeChangeComplete", onPageEndLoad);
-            })}
             <LinearProgress className="progress-override" id="progress-bar" sx={{display: "none"}} />
         </AppBar>
     );
