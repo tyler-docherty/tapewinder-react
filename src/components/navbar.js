@@ -118,7 +118,7 @@ export default function Navbar({ loggedin }) {
                                     </Button>
                                 </Tooltip>
                                 <Tooltip title="Log in">
-                                    <Button variant="contained" size="medium" component="div">
+                                    <Button variant="contained" component="div">
                                         <Link href="/login" className="no-text-decoration">Log in</Link>
                                     </Button>
                                 </Tooltip>
