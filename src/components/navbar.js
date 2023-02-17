@@ -22,6 +22,7 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 export default function Navbar({ loggedin }) {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
+    const [progressState, setProgressState] = useState(false);
     const router = useRouter();
 
     const handleOpenNavMenu = (event) => {
@@ -42,11 +43,11 @@ export default function Navbar({ loggedin }) {
 
     useEffect(() => {
         const onPageStartLoad = () => {
-            document.getElementById("progress-bar").style.display = "block";
+            setProgressState(true);
         };
         const onPageEndLoad = () => {
             setTimeout(() => {
-                document.getElementById("progress-bar").style.display = "none";
+                setProgressState(false);
             }, Math.floor(Math.random()*1000)+500);
         };
         router.events.on("routeChangeStart", onPageStartLoad);
@@ -149,7 +150,7 @@ export default function Navbar({ loggedin }) {
                     </Box>
                 </Toolbar>
             </Container>
-            <LinearProgress className="progress-override" id="progress-bar" sx={{display: "none"}} />
+            <LinearProgress className="progress-override" sx={{display: progressState ? "block": "none"}} />
         </AppBar>
     );
 }
