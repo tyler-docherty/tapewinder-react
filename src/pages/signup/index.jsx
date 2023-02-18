@@ -81,15 +81,13 @@ export default function Index() {
             }})
             .then((res) => res.json())
             .then((res) => {
-                if (!res.success) {
-                    console.log(res);
-                    console.log("in then");
-                    getExternalWarnings(res.errors);
-                } else {
+                if (res.success) {
                     setSuccessAlert(<Alert severity="success">Account created successfully!</Alert>);
                     setTimeout(() => {
                         setShouldRedirect(true);
                     }, 500);
+                } else {
+                    getExternalWarnings(res.errors);
                 }
             })
             .catch((err) => {

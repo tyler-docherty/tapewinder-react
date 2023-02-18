@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import Navbar from "./navbar.js";
 
 const darkTheme = createTheme({
     palette: {
@@ -9,7 +8,7 @@ const darkTheme = createTheme({
     }
 });
 
-export default function Layout({ children }) {
+export default function Layout({ children, nav }) {
     return (
         <>
             <ThemeProvider theme={darkTheme}>
@@ -18,7 +17,7 @@ export default function Layout({ children }) {
                     <Head>
                         <title>tapewinder</title>
                     </Head>
-                    <Navbar loggedin={false}/>
+                    {nav}
                     <main>{children}</main>
                 </div>
             </ThemeProvider>

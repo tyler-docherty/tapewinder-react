@@ -1,10 +1,7 @@
 import bcrypt from "bcrypt";
 import emailValidator from "email-validator";
 import { Pool } from "pg";
-import dotenv from "dotenv";
 import { v4 } from "uuid";
-import path from "path";
-dotenv.config({ path: path.join(process.cwd(), "credentials.env") });
 
 // 1 num, 1 lowercase char, 1 uppercase char, 1 ascii symbol, 8 to 200 chars
 const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=.*[a-zA-Z0-9@#$%^&+=!]).{8,50}$/;
@@ -16,7 +13,7 @@ const user = "ACCOUNTMAN";
 const hostname = "db.bit.io";
 const port = 5432;
 const db = "shr4pnel/users";
-const dbpassword = process.env.BIT_IO_KEY;
+const dbpassword = process.env.REACT_APP_BIT_IO_KEY;
 const ssl = true;
 
 const pool = new Pool({
