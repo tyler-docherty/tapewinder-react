@@ -10,7 +10,7 @@
 }
 
 .black {
-    background-color: black;
+    background-color: black !important;
 }
 
 .tapewinder-form {
@@ -33,14 +33,37 @@
     background-color: #181818;
 }
 
-form {
+.form {
     margin-top: 15%;
     padding-top: 15px;
     padding-bottom: 15%;
+}
+  
+.page-enter {
+    transform: translateX(100%);
+}
+  
+.page-enter-active {
+    transform: translateX(0);
+    transition: transform 500ms ease-in-out;
+}
+  
+.page-exit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateX(0);
+}
+  
+.page-exit-active {
+    transform: translateX(-100%);
+    transition: transform 500ms ease-in-out;
 }
 
 body {
     color-scheme: dark;
     font-family: 'Lato', sans-serif;
-    background-color: #1c1c1c;
+    background-color: #1c1c1c !important;
 }

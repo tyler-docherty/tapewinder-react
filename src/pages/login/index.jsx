@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import Navbar from "../../components/navbar";
 
 export default function Index() {
     const [shouldRedirect, setShouldRedirect] = useState(false);
@@ -36,6 +37,7 @@ export default function Index() {
             });
         event.preventDefault();
     }
+    
     useEffect(() => {
         if (shouldRedirect) {
             setShouldRedirect(false);
@@ -45,9 +47,10 @@ export default function Index() {
 
     return (
         <> 
+            <Navbar />
             {alert}
             <div className="tapewinder-form" style={{display: "flex"}}>
-                <form onSubmit={formSubmit}>
+                <form className="form" onSubmit={formSubmit}>
                     <h1>Log in</h1>
                     <TextField id="username" label="Username/Email" variant="standard" sx={{width: "90%", marginBottom: "16px"}} />
                     <TextField id="password" label="Password" variant="standard" type="password" autoComplete="current-password" sx={{width: "90%", marginBottom: "40px"}} />

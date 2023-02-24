@@ -8,7 +8,7 @@ const darkTheme = createTheme({
     }
 });
 
-export default function Layout({ children, nav }) {
+export default function Layout({ children }) {
     return (
         <>
             <ThemeProvider theme={darkTheme}>
@@ -17,7 +17,6 @@ export default function Layout({ children, nav }) {
                     <Head>
                         <title>tapewinder</title>
                     </Head>
-                    {nav}
                     <main>{children}</main>
                 </div>
             </ThemeProvider>

@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import Navbar from "../../components/navbar";
 import "@fontsource/roboto";
 
 
@@ -98,12 +99,13 @@ export default function Index() {
 
     return (
         <>
+            <Navbar />
             {passwordAlert}
             {emailAlert}
             {usernameAlert}
             {successAlert}
             <div className="tapewinder-form">
-                <form onSubmit={formSubmit}>
+                <form className="form" onSubmit={formSubmit}>
                     <h1>Sign up</h1>
                     <TextField id="username" label="Username" variant="standard" error={hasUsernameError} sx={{width: "90%", marginBottom: "16px"}} />
                     <TextField id="email" label="Email" variant="standard" type="email" error={hasEmailError} sx={{width: "90%", marginBottom: "16px"}} />

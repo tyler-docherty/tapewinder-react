@@ -10,16 +10,15 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useRouter } from "next/router";
 import "@fontsource/roboto/500.css";
 import Logo from "./logo";
-import UserAvatar from "./avatar";
 
-const pages = ["Home" ,"Popular", "About"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = ["Home"];
 
-export default function Navbar({ loggedin }) {
+export default function Navbar({ loggedIn, username }) {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [progressState, setProgressState] = useState(false);
@@ -41,6 +40,19 @@ export default function Navbar({ loggedin }) {
         setAnchorElUser(null);
     };
 
+    const destroySession = () => {
+        fetch("/api/logout", {
+            method: "GET",
+            credentials: "same-origin"
+        })
+            .then(() => {
+                router.reload();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     useEffect(() => {
         const onPageStartLoad = () => {
             setProgressState(true);
@@ -48,16 +60,16 @@ export default function Navbar({ loggedin }) {
         const onPageEndLoad = () => {
             setTimeout(() => {
                 setProgressState(false);
-            }, Math.floor(Math.random()*1000)+500);
+            }, 1500);
         };
         router.events.on("routeChangeStart", onPageStartLoad);
         router.events.on("routeChangeComplete", onPageEndLoad);
     });
 
     return (
-        <AppBar position="static" className="black">
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
+        <AppBar position="static" className="black" sx={{ width: "100%" }}>
+            <Container maxWidth={false} disableGutters={true} sx={{ py: "1em" }}>
+                <Toolbar>
                     <Logo width="182" height="46" margintop="5px" marginright="10px" />
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
                         <IconButton
@@ -104,13 +116,16 @@ export default function Navbar({ loggedin }) {
                         </div>                                                                                                                                                                        
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
-                        {loggedin 
+                        {loggedIn 
                             ?
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <UserAvatar src="tapewinder_profilepicture.jpg" alt="profile picture"/>
-                                </IconButton>
-                            </Tooltip>
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} disableRipple={true} sx={{ padding: 0 }}>
+                                        <Avatar src="/tapewinder_profilepicture.jpg" alt="profile picture" />
+                                        <Typography sx={{ marginLeft: "8px" }}>@{username}</Typography>
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
                             :
                             <div>
                                 <Tooltip title="Sign up">
@@ -126,7 +141,7 @@ export default function Navbar({ loggedin }) {
                             </div>
                         }
                         <Menu
-                            sx={{ mt: "45px" }}
+                            sx={{ mt: "45px", px: "100px" }}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
                             anchorOrigin={{
@@ -141,11 +156,15 @@ export default function Navbar({ loggedin }) {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem>
+                                <Typography textAlign="center">Profile</Typography>
+                            </MenuItem>
+                            <MenuItem>
+                                <Typography textAlign="center">Settings</Typography>
+                            </MenuItem>
+                            <MenuItem onClick={destroySession}>
+                                <Typography textAlign="center">Log out</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>

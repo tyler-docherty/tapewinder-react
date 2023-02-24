@@ -21,14 +21,13 @@ const pool = new Pool({
 
 const sessionOptions = {
     cookieName: "tapewinder_user",
-    password: "ANfzZjkR4szPasiv4@FKv#ECpA72yM^jFhfAC8^!#nNC9#6KaXhKdLQsn5VWs@GG",
+    password: process.env.REACT_APP_PRIVATE_KEY,
     cookieOptions: {
         // this must not be deployed as false
         // but this value must be false to develop on http
         secure: false
     }
 };
-
 
 function rowsReturned(query) {
     return Boolean(query.rows.toString());
@@ -43,10 +42,9 @@ function getEmailOrPassword(usernameOrEmail) {
     }
 }
 
-
 export default withIronSessionApiRoute(
-    async function handler(req, res) {
-        const body = JSON.parse(req.body);
+    function handler(req, res) {
+        const body = typeof req.body === "object" ? req.body : JSON.parse(req.body);
         const queryString = getEmailOrPassword(body.usernameOrEmail) ? "email": "username";
         pool
             .query(`SELECT uid, hash, username FROM accounts WHERE ${queryString}=$1`, [body.usernameOrEmail])
