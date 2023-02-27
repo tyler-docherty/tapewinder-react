@@ -1,27 +1,34 @@
 import Navbar from "../../components/navbar";
 import { withIronSessionSsr } from "iron-session/next";
 import { useState } from "react";
-import { FormControl, RadioGroup, Paper, Grid, Button, TextField, Typography, Container, FormLabel, FormControlLabel, Radio } from "@mui/material";
+import { FormControl, RadioGroup, Paper, Alert, Grid, Button, TextField, Typography, Container, FormLabel, FormControlLabel, Radio } from "@mui/material";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import "@fontsource/roboto";
 
 export default function Index({ isUserLoggedIn, username }) {
     const [title, setTitle] = useState("Untitled");
     const [length, setLength] = useState(60);
+    const [alert, setAlert] = useState(null);
     const router = useRouter();
 
     const buttonPressed = async () => {
-        const res = await fetch(`/api/usermixtapes?username=${username}&title=${title}`);
+        const res = await fetch(`/api/duplicate?username=${username}&title=${title}`);
         const { duplicate } = await res.json();
         if (!duplicate) {
-            router.push("/create/tracks");
+            setAlert(null);
+            router.push({
+                pathname: "/create/tracks",
+                query: { title: title, length: length }
+            }, "/create/tracks");
+        } else {
+            setAlert(<Alert severity="error">You already have a mixtape with this name. Please pick another.</Alert>);
         }
     };
 
     return (
         <>
             <Navbar loggedIn={isUserLoggedIn} username={username} />
+            {alert}
             <Container maxWidth="x1" sx={{ display: "block", ml: "auto" }}>
                 <Typography component="div" variant="h2" sx={{ fontWeight: "bold", pt: "2rem", textAlign: "center" }}>Select a mixtape title and length:</Typography>
             </Container>
@@ -51,9 +58,7 @@ export default function Index({ isUserLoggedIn, username }) {
                     </Grid>
                     <Grid container justifyContent="center" sx={{ mt: "15px", pb: "25px" }}>
                         <Grid item>
-                            <Link href="/create/tracks" passHref>
-                                <Button variant="contained" type="submit" onClick={buttonPressed}>Submit</Button>
-                            </Link>
+                            <Button variant="contained" type="submit" onClick={buttonPressed}>Submit</Button>
                         </Grid>
                     </Grid>
                 </Paper>
@@ -73,11 +78,9 @@ const sessionOptions = {
 export const getServerSideProps = withIronSessionSsr(
     async function getServerSideProps({ req }) {
         const sessionExists = typeof req.session.user !== "undefined";
-        const user = sessionExists ? req.session.user : null;
         const username = sessionExists ?  req.session.user.username : null;
         return {
             props: {
-                user: user,
                 isUserLoggedIn: Boolean(req.session.user),
                 username: username
             }

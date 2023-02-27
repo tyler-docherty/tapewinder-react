@@ -56,11 +56,9 @@ const sessionOptions = {
 export const getServerSideProps = withIronSessionSsr(
     async function getServerSideProps({ req }) {
         const sessionExists = typeof req.session.user !== "undefined";
-        const user = sessionExists ? req.session.user : null;
         const username = sessionExists ?  req.session.user.username : null;
         return {
             props: {
-                user: user,
                 isUserLoggedIn: Boolean(req.session.user),
                 username: username
             }

@@ -19,18 +19,26 @@ const pool = new Pool({
 export default async function handler(req, res) {
     const { username, title } = req.query;
     // cross table join, get tracks for given uid
-    pool.query(`
-    SELECT mixtapes.tracks
+    pool
+        .query(`
+    SELECT mixtapes.title
     FROM accounts
     INNER JOIN mixtapes 
     on accounts.uid=mixtapes.owner 
-    AND accounts.username=$1`, 
-    [username])
+    AND accounts.username=$1`, [username])
+        // this callback checks if any rows contain a duplicate title. this ensures dynamic
+        // links work correctly.
         .then((query) => {
-            if (!query.rows.length) {
-                res.status(200).json({ duplicate: false });
+            let duplicate = { duplicate: false };
+            if (query.rowCount > 0) {
+                query.rows.forEach((row) => {
+                    if (row.title === title) {
+                        duplicate = { duplicate: true };
+                    }
+                });
+                return res.status(200).json(duplicate); 
             } else {
-                res.status(403).json({ duplicate: true });
+                return res.status(200).json({ duplicate: false });
             }
         })
         .catch((err) => {
