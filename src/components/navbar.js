@@ -71,41 +71,6 @@ export default function Navbar({ loggedIn, username }) {
             <Container maxWidth={false} disableGutters={true} sx={{ py: "1em" }}>
                 <Toolbar>
                     <Logo width="182" height="46" margintop="5px" marginright="10px" />
-                    <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "left",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "left",
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: "block", md: "none" },
-                            }}
-                        >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }} id="navbar">
                         <div style={{ marginTop: "2px", marginBottom: "2px", color: "white", display: "block" }}>
                             <Button
@@ -119,7 +84,7 @@ export default function Navbar({ loggedIn, username }) {
                         {loggedIn 
                             ?
                             <div style={{ display: "flex", alignItems: "center" }}>
-                                <Tooltip title="Open settings">
+                                <Tooltip title="Check your account">
                                     <IconButton onClick={handleOpenUserMenu} disableRipple={true} sx={{ padding: 0 }}>
                                         <Avatar src="/tapewinder_profilepicture.jpg" alt="profile picture" />
                                         <Typography sx={{ marginLeft: "8px" }}>@{username}</Typography>
