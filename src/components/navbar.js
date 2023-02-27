@@ -16,24 +16,13 @@ import { useRouter } from "next/router";
 import "@fontsource/roboto/500.css";
 import Logo from "./logo";
 
-const pages = ["Home"];
-
 export default function Navbar({ loggedIn, username }) {
-    const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [progressState, setProgressState] = useState(false);
     const router = useRouter();
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
     };
 
     const handleCloseUserMenu = () => {
@@ -73,9 +62,7 @@ export default function Navbar({ loggedIn, username }) {
                     <Logo width="182" height="46" margintop="5px" marginright="10px" />
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }} id="navbar">
                         <div style={{ marginTop: "2px", marginBottom: "2px", color: "white", display: "block" }}>
-                            <Button
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: "white", display: "block" }}>
+                            <Button sx={{ my: 2, color: "white", display: "block" }}>
                                 <Link href="/" className="no-text-decoration">Home</Link>
                             </Button>
                         </div>                                                                                                                                                                        

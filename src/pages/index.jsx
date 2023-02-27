@@ -32,7 +32,7 @@ export default function Index({ isUserLoggedIn, username }) {
                 {isUserLoggedIn
                     ?
                     <Tooltip title="Create a new mixtape">
-                        <Fab onClick={redirect} sx={{ position: "absolute", left: "92%", top: "92%" }}>
+                        <Fab onClick={redirect} sx={{ position: "absolute", right: 0, bottom: 0, margin: "2.5em" }}>
                             <AddIcon />
                         </Fab>
                     </Tooltip>
