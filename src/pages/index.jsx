@@ -9,26 +9,16 @@ import "@fontsource/roboto";
 
 export default function Index({ isUserLoggedIn, username }) {
     const [shouldRedirect, setShouldRedirect] = useState(false);
-    const [mixtapes, setMixtapes] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
-        const getMixtapesAsync = async () => {
-            const res = await fetch("/api/mixtapes", {
-                credentials: "same-origin",
-                method: "GET",
-            });
-            const resJSON = await res.json();
-            setMixtapes(JSON.stringify(resJSON));
-            console.log("mixtapes", mixtapes);
-        };
 
         if (shouldRedirect) {
             setShouldRedirect(false);
             router.push("/create/info");
         }
 
-    }, [shouldRedirect, setShouldRedirect, router, mixtapes]);
+    }, [shouldRedirect, setShouldRedirect, router]); 
 
     const redirect = () => {
         setShouldRedirect(true);
