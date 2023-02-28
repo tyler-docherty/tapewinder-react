@@ -1,24 +1,34 @@
-import Container from "@mui/material/Container";
-import Fab from "@mui/material/Fab";
+import { Container, Fab, Tooltip, Typography, Grid, Card, CardContent, CardMedia } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { withIronSessionSsr } from "iron-session/next";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import AddIcon from "@mui/icons-material/Add";
-import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
+
 import Navbar from "../components/navbar";
 import "@fontsource/roboto";
 
 export default function Index({ isUserLoggedIn, username }) {
     const [shouldRedirect, setShouldRedirect] = useState(false);
+    const [mixtapes, setMixtapes] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
+        const getMixtapesAsync = async () => {
+            const res = await fetch("/api/mixtapes", {
+                credentials: "same-origin",
+                method: "GET",
+            });
+            const resJSON = await res.json();
+            setMixtapes(JSON.stringify(resJSON));
+            console.log("mixtapes", mixtapes);
+        };
+
         if (shouldRedirect) {
             setShouldRedirect(false);
-            router.push("/create/info", );
+            router.push("/create/info");
         }
-    }, [shouldRedirect, setShouldRedirect, router]);
+
+    }, [shouldRedirect, setShouldRedirect, router, mixtapes]);
 
     const redirect = () => {
         setShouldRedirect(true);
@@ -31,11 +41,18 @@ export default function Index({ isUserLoggedIn, username }) {
                 <Typography component="h1" variant="h3" sx={{ fontWeight: "bold", py: "2rem" }}>My Mixtapes:</Typography>
                 {isUserLoggedIn
                     ?
-                    <Tooltip title="Create a new mixtape">
-                        <Fab onClick={redirect} sx={{ position: "absolute", right: 0, bottom: 0, margin: "2.5em" }}>
-                            <AddIcon />
-                        </Fab>
-                    </Tooltip>
+                    <>
+                        <Tooltip title="Create a new mixtape">
+                            <Fab onClick={redirect} sx={{ position: "absolute", right: 0, bottom: 0, margin: "2.5em" }}>
+                                <AddIcon />
+                            </Fab>
+                        </Tooltip>
+                        <Grid container justifyContent="center" alignItems="center" spacing={8}>
+                            <Grid item>
+                                <Card></Card>
+                            </Grid>
+                        </Grid>
+                    </>
                     :
                     null
                 }
