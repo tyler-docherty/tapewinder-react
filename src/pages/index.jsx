@@ -1,4 +1,4 @@
-import { Container, Fab, Tooltip, Typography, Grid, Card, CardContent, CardMedia } from "@mui/material";
+import { Container, Fab, Tooltip, Typography, Grid, Card } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { withIronSessionSsr } from "iron-session/next";
 import { useState, useEffect } from "react";
