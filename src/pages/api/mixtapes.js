@@ -14,7 +14,7 @@ const sessionOptions = {
     cookieOptions: {
         // this must not be deployed as false
         // but this value must be false to develop on http
-        secure: false
+        secure: process.env.NODE_ENV === "production" ? true : false 
     }
 };
 
