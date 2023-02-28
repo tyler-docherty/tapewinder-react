@@ -30,7 +30,12 @@ const pool = new Pool({
 
 export default withIronSessionApiRoute(
     async function handler(req, res) {
-        const owner = req.session.user.id;
+        let owner = null;
+        try {
+            owner = req.session.user.id;
+        } catch {
+            return res.status(400).json({ success: false });
+        }
         pool
             .query("SELECT mixtapes.tracks FROM accounts INNER JOIN mixtapes ON accounts.uid=mixtapes.owner AND accounts.uid=$1", [owner])
             .then((query) => {

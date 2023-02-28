@@ -18,7 +18,7 @@ export default function Index({ isUserLoggedIn, username }) {
             router.push("/create/info");
         }
 
-    }, [shouldRedirect, setShouldRedirect, router]); 
+    }, [shouldRedirect, setShouldRedirect, router]);
 
     const redirect = () => {
         setShouldRedirect(true);
@@ -62,10 +62,30 @@ const sessionOptions = {
 
 export const getServerSideProps = withIronSessionSsr(
     async function getServerSideProps({ req }) {
+        let tracks;
+        fetch("/api/mixtapes", {
+            method: "GET",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.success) {
+                    tracks = response.tracks;
+                } else {
+                    tracks = null;
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
         const sessionExists = typeof req.session.user !== "undefined";
         const username = sessionExists ?  req.session.user.username : null;
         return {
             props: {
+                tracks: tracks,
                 isUserLoggedIn: Boolean(req.session.user),
                 username: username
             }
