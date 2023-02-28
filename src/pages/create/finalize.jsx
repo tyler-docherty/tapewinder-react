@@ -13,7 +13,6 @@ export default function Finalize({ isUserLoggedIn, username }) {
     const tracks = JSON.parse(router.query.tracks);
     tracks.title = title;
     tracks.length = length;
-    console.log(length, title, tracks, startRenderingFrom);
 
     const postTracks = async () => {
         const res = await fetch("/api/addmixtape", {

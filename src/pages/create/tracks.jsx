@@ -1,7 +1,7 @@
 import Navbar from "../../components/navbar";
 import { useRouter } from "next/router";
 import { withIronSessionSsr } from "iron-session/next";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Avatar, Container, Typography, TextField, Button, Grid, Paper, List, Autocomplete, CircularProgress, InputAdornment, ListItemText, ListItem, ListItemAvatar } from "@mui/material";
 
 
@@ -21,12 +21,6 @@ export default function Index({ isUserLoggedIn, username }) {
     if (!title || !length) {
         [length, title] = [60, "Untitled"];
     }
-
-    useEffect(() => {
-        console.log("useeffect", titles, avatars, lengths, artists);
-        console.log("useeffect isfull", isFullA);
-        console.log("useeffect startrenderfrom", startRenderingFrom);
-    });
 
     const secondsToPrettyMinutes = (seconds) => {
         const minutes = Math.floor(seconds/60);
@@ -139,7 +133,6 @@ export default function Index({ isUserLoggedIn, username }) {
                                                 }
                                                 // if we've reached the end of side b cancel add
                                                 if (sideBLength + newSong.song.duration > length*30) {
-                                                    console.log("end!");
                                                     return event.preventDefault();
                                                 }
                                                 // start rendering on side B if side a is full
