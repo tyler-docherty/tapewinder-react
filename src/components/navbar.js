@@ -60,12 +60,22 @@ export default function Navbar({ loggedIn, username }) {
             <Container maxWidth={false} disableGutters={true} sx={{ py: "1em" }}>
                 <Toolbar>
                     <Logo width="182" height="46" margintop="5px" marginright="10px" />
-                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }} id="navbar">
+                    <Box sx={{ flexGrow: 1, display: { md: "flex" } }} id="navbar">
                         <div style={{ marginTop: "2px", marginBottom: "2px", color: "white", display: "block" }}>
                             <Button sx={{ my: 2, color: "white", display: "block" }}>
                                 <Link href="/" className="no-text-decoration">Home</Link>
                             </Button>
-                        </div>                                                                                                                                                                        
+                        </div>        
+                        {loggedIn
+                            ?
+                            <div style={{ marginTop: "2px", marginBottom: "2px", color: "white", display: "block" }}>
+                                <Button sx={{ my: 2, color: "white", display: "block" }}>
+                                    <Link href="/create/info" className="no-text-decoration">Create</Link>
+                                </Button>
+                            </div>  
+                            :
+                            null
+                        }                                                                                                                                                                
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         {loggedIn 
